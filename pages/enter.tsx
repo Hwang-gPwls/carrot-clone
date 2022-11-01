@@ -1,10 +1,11 @@
+import type { NextPage } from "next";
 import { useState } from "react";
 
-const ClassName = (...classnames: string[]) => {
+const cls = (...classnames: string[]) => {
   return classnames.join(" ");
 };
 
-export default function Enter() {
+const Enter: NextPage = () => {
   const [method, setMethod] = useState<"email" | "phone">("email");
   const onEmailClick = () => setMethod("email");
   const onPhoneClick = () => setMethod("phone");
@@ -17,7 +18,7 @@ export default function Enter() {
           <h5 className="text-sm font-medium text-gray-500">Enter using:</h5>
           <div className="mt-8 grid w-full grid-cols-2 gap-16 border-b">
             <button
-              className={ClassName(
+              className={cls(
                 "border-b-2 pb-4 font-medium",
                 method === "email"
                   ? "border-orange-500 text-orange-400"
@@ -28,7 +29,7 @@ export default function Enter() {
               Email
             </button>
             <button
-              className={ClassName(
+              className={cls(
                 "border-b-2 pb-4 font-medium",
                 method === "phone"
                   ? "border-orange-500 text-orange-400"
@@ -40,12 +41,12 @@ export default function Enter() {
             </button>
           </div>
         </div>
-        <form className="mt-8 flex flex-col">
+        <form className="mx-3 mt-8 flex flex-col">
           <label className="text-sm font-medium text-gray-700">
             {method === "email" ? "Email address" : null}
             {method === "phone" ? "Phone number" : null}
           </label>
-          <div className="mx-2 mt-1">
+          <div className="mt-1">
             {method === "email" ? (
               <input
                 type="email"
@@ -79,7 +80,7 @@ export default function Enter() {
                   Or enter with
                 </span>
               </div>
-              <div className="mt-2 grid grid-cols-2 gap-3">
+              <div className="mx-3 mt-2 grid grid-cols-2 gap-3">
                 <button className="flex items-center justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-500 shadow-sm hover:bg-gray-50">
                   <svg
                     className="h-5 w-5"
@@ -111,4 +112,6 @@ export default function Enter() {
       </div>
     </div>
   );
-}
+};
+
+export default Enter;
