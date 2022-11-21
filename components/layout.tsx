@@ -43,7 +43,7 @@ const Layout = ({ title, canGoBack, hasTabBar, children }: LayoutProps) => {
       <div className={cls("pt-12", hasTabBar ? "pb-24" : "")}>{children}</div>
       {hasTabBar ? (
         <nav className="fixed bottom-0 flex w-full max-w-xl justify-between border-t bg-white px-10 pb-5 pt-3 text-xs text-gray-700">
-          <Link href="/">
+          <Link legacyBehavior href="/">
             <a
               className={cls(
                 "flex flex-col items-center space-y-2 ",
@@ -69,7 +69,7 @@ const Layout = ({ title, canGoBack, hasTabBar, children }: LayoutProps) => {
               <span>홈</span>
             </a>
           </Link>
-          <Link href="/community">
+          <Link legacyBehavior href="/community">
             <a
               className={cls(
                 "flex flex-col items-center space-y-2 ",
@@ -95,7 +95,7 @@ const Layout = ({ title, canGoBack, hasTabBar, children }: LayoutProps) => {
               <span>동네생활</span>
             </a>
           </Link>
-          <Link href="/chats">
+          <Link legacyBehavior href="/chats">
             <a
               className={cls(
                 "flex flex-col items-center space-y-2 ",
@@ -121,7 +121,7 @@ const Layout = ({ title, canGoBack, hasTabBar, children }: LayoutProps) => {
               <span>채팅</span>
             </a>
           </Link>
-          <Link href="/live">
+          <Link legacyBehavior href="/live">
             <a
               className={cls(
                 "flex flex-col items-center space-y-2 ",
@@ -147,7 +147,7 @@ const Layout = ({ title, canGoBack, hasTabBar, children }: LayoutProps) => {
               <span>라이브</span>
             </a>
           </Link>
-          <Link href="/profile">
+          <Link legacyBehavior href="/profile">
             <a
               className={cls(
                 "flex flex-col items-center space-y-2 ",
