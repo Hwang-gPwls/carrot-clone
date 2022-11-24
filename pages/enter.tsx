@@ -1,17 +1,41 @@
 import type { NextPage } from "next";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import Button from "@components/button";
+import Input from "@components/input";
+import useMutation from "@libs/client/useMutation";
 
 const cls = (...classnames: string[]) => {
   return classnames.join(" ");
 };
 
+interface EnterForm {
+  email?: string;
+  phone?: string;
+}
+
 const Enter: NextPage = () => {
+  const [enter, { loading, data, error }] = useMutation("/api/users/enter");
+  const [submitting, setSubmitting] = useState(false);
+  const { register, handleSubmit, reset } = useForm<EnterForm>();
   const [method, setMethod] = useState<"email" | "phone">("email");
-  const onEmailClick = () => setMethod("email");
-  const onPhoneClick = () => setMethod("phone");
+
+  const onEmailClick = () => {
+    reset();
+    setMethod("email");
+  };
+
+  const onPhoneClick = () => {
+    reset();
+    setMethod("phone");
+  };
+
+  const onValid = (validForm: EnterForm) => {
+    enter(validForm);
+  };
 
   return (
-    <div className="mt-16">
+    <div className="mt-16 px-4">
       <h3 className="text-center text-3xl font-bold">Enter to Carrot</h3>
       <div className="mt-8">
         <div className="flex flex-col items-center">
@@ -41,36 +65,37 @@ const Enter: NextPage = () => {
             </button>
           </div>
         </div>
-        <form className="mx-3 mt-8 flex flex-col">
-          <label className="text-sm font-medium text-gray-700">
-            {method === "email" ? "Email address" : null}
-            {method === "phone" ? "Phone number" : null}
-          </label>
-          <div className="mt-1">
-            {method === "email" ? (
-              <input
-                type="email"
-                className="w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-orange-500"
+        <form
+          onSubmit={handleSubmit(onValid)}
+          className="mt-8 flex flex-col space-y-4"
+        >
+          {method === "email" ? (
+            <Input
+              register={register("email", {
+                required: true,
+              })}
+              name="email"
+              label="Email address"
+              type="email"
+              required
+            />
+          ) : null}
+          {method === "phone" ? (
+            <>
+              <Input
+                register={register("phone")}
+                name="phone"
+                label="Phone number"
+                type="number"
+                kind="phone"
                 required
               />
-            ) : null}
-            {method === "phone" ? (
-              <div className="flex rounded-md shadow-sm">
-                <span className="flex select-none items-center justify-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-sm text-gray-500">
-                  +82
-                </span>
-                <input
-                  type="number"
-                  className="w-full appearance-none rounded-md rounded-l-none border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-orange-500"
-                  required
-                />
-              </div>
-            ) : null}
-          </div>
-          <button className="mt-5 rounded-md border border-transparent bg-orange-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2">
-            {method === "email" ? "Get login link" : null}
-            {method === "phone" ? "Get one-time password" : null}
-          </button>
+            </>
+          ) : null}
+          {method === "email" ? <Button text={"Get login link"} /> : null}
+          {method === "phone" ? (
+            <Button text={submitting ? "Loading" : "Get one-time password"} />
+          ) : null}
         </form>
         <div className="mt-8">
           <div className="relative">
